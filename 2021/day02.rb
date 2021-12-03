@@ -4,7 +4,7 @@
 horizontal = 0
 depth = 0
 
-File.foreach('day02-input.txt') do |command|
+File.foreach('input/day02.txt') do |command|
   line = command.split
 
   case line[0]
@@ -25,7 +25,7 @@ horizontal = 0
 depth = 0
 aim = 0
 
-File.foreach('day02-input.txt') do |command|
+File.foreach('input/day02.txt') do |command|
   line = command.split
   value = line[1].to_i
 
