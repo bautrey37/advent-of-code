@@ -46,6 +46,37 @@ defmodule AdventOfCode.Day02 do
     end)
   end
 
-  def part2(_args) do
+  def part2(args) do
+    args
+    |> String.trim()
+    |> String.split("\n")
+    |> Enum.map(fn line ->
+      [_, _game_num, game_list] = Regex.run(~r/Game ([[:digit:]]*): (.*)/, line)
+
+      min_game = %{
+         blue: 0,
+         red: 0,
+         green: 0
+      }
+      acc = game_list
+      |> String.split(";")
+      |> Enum.reduce(min_game, fn games, acc ->
+        games
+        |> String.split(",")
+        |> Enum.reduce(acc, fn cubes, acc ->
+          [_, num, type] = Regex.run(~r/([[:digit:]]*) (blue|red|green)/, cubes)
+          num = String.to_integer(num)
+
+          cond do
+            num > acc.blue && type == "blue" -> Map.replace(acc, :blue, num)
+            num > acc.red && type == "red" -> Map.replace(acc, :red, num)
+            num > acc.green && type == "green" -> Map.replace(acc, :green, num)
+            true -> acc
+          end
+        end)
+      end)
+      acc.blue * acc.red * acc.green
+    end)
+    |> Enum.sum()
   end
 end
